@@ -1,0 +1,106 @@
+CREATE DATABASE online_server_chat;
+USE online_server_chat;
+
+-- 1) OSCH_USERS
+CREATE TABLE OSCH_USERS (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  avatar_path VARCHAR(200),
+  role VARCHAR(20),
+  status VARCHAR(20),
+  join_time DATETIME DEFAULT NULL,
+  ip_address VARCHAR(45),
+  secret_code VARCHAR(20)
+);
+
+-- 2) OSCH_ROOMS
+CREATE TABLE OSCH_ROOMS (
+  room_code CHAR(6) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  created_by INT NOT NULL,
+  created_at DATETIME DEFAULT NULL,
+  message_ttl_days INT,
+  FOREIGN KEY (created_by) REFERENCES OSCH_USERS(id)
+);
+
+-- 3) OSCH_ROOM_MEMBERS
+CREATE TABLE OSCH_ROOM_MEMBERS (
+  user_id INT NOT NULL,
+  room_code CHAR(6) NOT NULL,
+  is_admin BOOLEAN DEFAULT 0,
+  status VARCHAR(20),
+  joined_at DATETIME DEFAULT NULL,
+  left_at DATETIME,
+  PRIMARY KEY (user_id, room_code),
+  FOREIGN KEY (user_id) REFERENCES OSCH_USERS(id),
+  FOREIGN KEY (room_code) REFERENCES OSCH_ROOMS(room_code)
+);
+
+-- 4) OSCH_PRIVATE_DMS
+CREATE TABLE OSCH_PRIVATE_DMS (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_a_id INT NOT NULL,
+  user_b_id INT NOT NULL,
+  created_at DATETIME DEFAULT NULL,
+  UNIQUE (user_a_id, user_b_id),
+  FOREIGN KEY (user_a_id) REFERENCES OSCH_USERS(id),
+  FOREIGN KEY (user_b_id) REFERENCES OSCH_USERS(id)
+);
+
+-- 5) OSCH_MESSAGES
+CREATE TABLE OSCH_MESSAGES (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sender_id INT NOT NULL,
+  room_code CHAR(6),
+  dm_id INT,
+  content TEXT NOT NULL,
+  msg_type VARCHAR(20),
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  expires_at DATETIME,
+  deleted_at DATETIME,
+  FOREIGN KEY (sender_id) REFERENCES OSCH_USERS(id),
+  FOREIGN KEY (room_code) REFERENCES OSCH_ROOMS(room_code),
+  FOREIGN KEY (dm_id) REFERENCES OSCH_PRIVATE_DMS(id)
+);
+
+-- 6) OSCH_MESSAGE_RECEIPTS
+CREATE TABLE OSCH_MESSAGE_RECEIPTS (
+  message_id INT NOT NULL,
+  recipient_id INT NOT NULL,
+  status VARCHAR(20),
+  delivered_at DATETIME,
+  seen_at DATETIME,
+  PRIMARY KEY (message_id, recipient_id),
+  FOREIGN KEY (message_id) REFERENCES OSCH_MESSAGES(id),
+  FOREIGN KEY (recipient_id) REFERENCES OSCH_USERS(id)
+);
+
+-- 7) OSCH_SESSIONS
+CREATE TABLE OSCH_SESSIONS (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  ip VARCHAR(45),
+  started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  last_seen_at DATETIME,
+  ended_at DATETIME,
+  FOREIGN KEY (user_id) REFERENCES OSCH_USERS(id)
+);
+
+-- 8) OSCH_JOIN_REQUESTS
+CREATE TABLE OSCH_JOIN_REQUESTS (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  room_code CHAR(6) NOT NULL,
+  requester_id INT NOT NULL,
+  approver_id INT,
+  status VARCHAR(20) DEFAULT 'pending',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  decided_at DATETIME,
+  note VARCHAR(200),
+  FOREIGN KEY (room_code) REFERENCES OSCH_ROOMS(room_code),
+  FOREIGN KEY (requester_id) REFERENCES OSCH_USERS(id),
+  FOREIGN KEY (approver_id) REFERENCES OSCH_USERS(id)
+);
+
