@@ -1,7 +1,25 @@
+###############################
+# Per pjesen SQL
+###############################
 *.sql linguist-detectable=true
+*.sql linguist-language=SQL
 
+###############################
+# Per pjesen Java
+###############################
+*.java linguist-detectable=true
+*.class linguist-vendored=true   # nuk i nr .class sepse jane te gjeneruara
+
+###############################
+# README (Markdown)
+###############################
+*.md linguist-detectable=true
+
+
+###############################
+#*.sql linguist-detectable=true
 # e lash kete si koment, mos e perdor:
 # *.sql linguist-language=SQL
-
 # kjo eshte aktive dhe perdoret:
-*.sql linguist-language=INI
+#*.sql linguist-language=INI
+
