@@ -8,7 +8,8 @@
 # Per pjesen Java
 ###############################
 *.java linguist-detectable=true
-*.class linguist-vendored=true   #nuk i nr .class sepse jane te gjeneruara
+*.class linguist-vendored=true   
+#nuk i nr .class sepse jane te gjeneruara
 
 ###############################
 # README (Markdown)
