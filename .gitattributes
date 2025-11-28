@@ -9,7 +9,7 @@
 # për me e marrë SQL-in atë ngjyrë
 ########################################
 *.sqli linguist-detectable=true
-*.sqli linguist-language=YAML
+*.sqli linguist-language=CSS
 
 # Bashko ngjyrën e hack file-it me SQL
 *.sqli linguist-language=SQL
