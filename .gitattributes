@@ -1,3 +1,7 @@
 *.sql linguist-detectable=true
-*.sql linguist-language=SQL
+
+# e lash kete si koment, mos e perdor:
+# *.sql linguist-language=SQL
+
+# kjo eshte aktive dhe perdoret:
 *.sql linguist-language=INI
