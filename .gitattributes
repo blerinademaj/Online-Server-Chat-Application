@@ -1,26 +1,16 @@
-###############################
-# Per pjesen SQL
-###############################
+########################################
+# SQL — mbetet SQL në emër
+########################################
 *.sql linguist-detectable=true
 *.sql linguist-language=SQL
 
-###############################
-# Per pjesen Java
-###############################
-*.java linguist-detectable=true
-*.class linguist-vendored=true   
-#nuk i nr .class sepse jane te gjeneruara
+########################################
+# HACK — përdor YAML ngjyrën (blu)
+# për me e marrë SQL-in atë ngjyrë
+########################################
+*.sqli linguist-detectable=true
+*.sqli linguist-language=YAML
 
-###############################
-# README (Markdown)
-###############################
-*.md linguist-detectable=true
-
-
-###############################
-#*.sql linguist-detectable=true
-# e lash kete si koment, mos e perdor:
-# *.sql linguist-language=SQL
-# kjo eshte aktive dhe perdoret:
-#*.sql linguist-language=INI
+# Bashko ngjyrën e hack file-it me SQL
+*.sqli linguist-language=SQL
 
